@@ -6,11 +6,7 @@
   <link rel="icon" href="https://www.baidu.com/favicon.ico" />
   <title>欢迎页面</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       min-height: 100vh;
@@ -19,75 +15,65 @@
       align-items: center;
       justify-content: center;
       gap: 52px;
-
       font-family: "楷体", "华文琥珀", "Microsoft YaHei", sans-serif;
-
-      /* 明亮动态渐变背景 */
+      /* 深色动态渐变背景 */
       background: linear-gradient(
-        120deg,
-        #ffeef8,
-        #e0f3ff,
-        #f3e8ff,
-        #fff4d6,
-        #e4fff2
+        120deg, #0d1321, #1a1f3a, #10182b, #1c1633, #0d1321
       );
       background-size: 400% 400%;
-      animation: bgMove 18s ease infinite;
-
+      animation: bgMove 20s ease infinite;
       overflow: hidden;
       position: relative;
     }
 
-    /* 背景动态流动 */
     @keyframes bgMove {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    /* 漂浮光晕装饰 */
-    body::before,
-    body::after {
+    /* 漂浮光晕 */
+    body::before, body::after {
       content: "";
       position: absolute;
       border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.55;
+      filter: blur(90px);
+      opacity: 0.25;
       z-index: 0;
     }
-
     body::before {
-      width: 420px;
-      height: 420px;
-      background: #ffd6f0;
-      top: 18%;
-      left: 12%;
+      width: 420px; height: 420px;
+      background: #3a5bff;
+      top: 18%; left: 12%;
       animation: float1 14s ease-in-out infinite;
     }
-
     body::after {
-      width: 360px;
-      height: 360px;
-      background: #cbe9ff;
-      bottom: 20%;
-      right: 14%;
+      width: 360px; height: 360px;
+      background: #8a4dff;
+      bottom: 20%; right: 14%;
       animation: float2 16s ease-in-out infinite;
     }
-
     @keyframes float1 {
       0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(40px, -30px) scale(1.08); }
+      50%      { transform: translate(40px, -30px) scale(1.08); }
     }
-
     @keyframes float2 {
       0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(-30px, 40px) scale(1.06); }
+      50%      { transform: translate(-30px, 40px) scale(1.06); }
+    }
+
+    /* 闪烁星星 */
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: twinkle 4s ease-in-out infinite;
+      z-index: 0;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.15; transform: scale(1); }
+      50%      { opacity: 0.8;  transform: scale(1.4); }
     }
 
     .text-item {
@@ -98,92 +84,73 @@
       z-index: 1;
       transition: transform 0.4s ease, text-shadow 0.4s ease;
     }
+    .text-item:hover { transform: scale(1.06); }
 
-    .text-item:hover {
-      transform: scale(1.06);
-    }
-
-    /* 第一个“你好” */
     .hello-text {
-      color: #2b3a67;
-      text-shadow:
-        0 0 10px rgba(255, 255, 255, 0.9),
-        0 0 22px rgba(180, 210, 255, 0.5);
+      color: #e8ecff;
+      text-shadow: 0 0 10px rgba(140, 170, 255, 0.5),
+                   0 0 22px rgba(100, 130, 255, 0.3);
     }
 
-    /* 第二个“你好” */
+    /* 第二个"你好"→ 自我介绍 */
     .gray-hello a {
-      color: #7a8599;
+      color: #7d8ab0;
       text-decoration: none;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+      text-shadow: 0 0 8px rgba(120, 140, 220, 0.3);
     }
-
     .gray-hello a:hover {
-      color: #4a5578;
-      text-shadow: 0 0 14px rgba(255, 255, 255, 1);
+      color: #b8c4ff;
+      text-shadow: 0 0 14px rgba(140, 170, 255, 0.8);
     }
 
-    /* 链接文字 */
-    .link-item a {
+    /* 右上角箭头 */
+    .arrow {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      z-index: 2;
+      font-size: 44px;
       text-decoration: none;
+      color: #e8ecff;
+      opacity: 0.5;
       transition: all 0.4s ease;
+      animation: nudge 2.2s ease-in-out infinite;
+    }
+    .arrow:hover {
+      opacity: 1;
+      transform: scale(1.25) rotate(-8deg);
+      color: #9db8ff;
+      text-shadow: 0 0 14px rgba(140, 170, 255, 0.9),
+                   0 0 30px rgba(100, 130, 255, 0.6);
+    }
+    @keyframes nudge {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(8px); }
     }
 
-    .link-item.cute a {
-      color: #ff6fa5;
-      text-shadow:
-        0 0 8px rgba(255, 182, 210, 0.8),
-        0 0 18px rgba(255, 120, 170, 0.45);
-    }
-
-    .link-item.cute a:hover {
-      color: #ff4d8f;
-      text-shadow:
-        0 0 14px rgba(255, 182, 210, 1),
-        0 0 30px rgba(255, 120, 170, 0.7);
-    }
-
-    .link-item.clever a {
-      color: #4d8bff;
-      text-shadow:
-        0 0 8px rgba(160, 200, 255, 0.8),
-        0 0 18px rgba(77, 139, 255, 0.45);
-    }
-
-    .link-item.clever a:hover {
-      color: #2f6bff;
-      text-shadow:
-        0 0 14px rgba(160, 200, 255, 1),
-        0 0 30px rgba(77, 139, 255, 0.7);
-    }
-
-    /* 手机适配 */
     @media (max-width: 600px) {
-      .text-item {
-        font-size: 44px;
-        letter-spacing: 6px;
-      }
-
-      body {
-        gap: 36px;
-      }
+      .text-item { font-size: 44px; letter-spacing: 6px; }
+      body { gap: 36px; }
+      .arrow { font-size: 34px; top: 14px; right: 18px; }
     }
   </style>
 </head>
-
 <body>
+  <!-- 星星（位置、大小、闪烁延迟可随意调整） -->
+  <div class="star" style="top: 12%; left: 25%; width: 3px; height: 3px;"></div>
+  <div class="star" style="top: 30%; left: 70%; width: 2px; height: 2px; animation-delay: 1s;"></div>
+  <div class="star" style="top: 60%; left: 15%; width: 2px; height: 2px; animation-delay: 2s;"></div>
+  <div class="star" style="top: 75%; left: 55%; width: 3px; height: 3px; animation-delay: 0.5s;"></div>
+  <div class="star" style="top: 20%; left: 85%; width: 2px; height: 2px; animation-delay: 1.5s;"></div>
+  <div class="star" style="top: 45%; left: 40%; width: 2px; height: 2px; animation-delay: 2.5s;"></div>
+  <div class="star" style="top: 85%; left: 30%; width: 2px; height: 2px; animation-delay: 3s;"></div>
+
+  <a class="arrow" href="explore.html" title="去探索小屋">➜</a>
+
   <div class="text-item hello-text">你好</div>
 
   <div class="text-item gray-hello">
-    <a >你好</a>
-  </div>
-
-  <div class="text-item link-item cute">
-    <a href="cute.html">我是可爱的</a>
-  </div>
-
-  <div class="text-item link-item clever">
-    <a href="clever.html">我是聪明的</a>
+    <a href="about.html">你好</a>
   </div>
 </body>
 </html>

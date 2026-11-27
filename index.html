@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="https://www.baidu.com/favicon.ico" />
+  <title>欢迎页面</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 52px;
+
+      font-family: "楷体", "华文琥珀", "Microsoft YaHei", sans-serif;
+
+      /* 明亮动态渐变背景 */
+      background: linear-gradient(
+        120deg,
+        #ffeef8,
+        #e0f3ff,
+        #f3e8ff,
+        #fff4d6,
+        #e4fff2
+      );
+      background-size: 400% 400%;
+      animation: bgMove 18s ease infinite;
+
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* 背景动态流动 */
+    @keyframes bgMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* 漂浮光晕装饰 */
+    body::before,
+    body::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.55;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 420px;
+      height: 420px;
+      background: #ffd6f0;
+      top: 18%;
+      left: 12%;
+      animation: float1 14s ease-in-out infinite;
+    }
+
+    body::after {
+      width: 360px;
+      height: 360px;
+      background: #cbe9ff;
+      bottom: 20%;
+      right: 14%;
+      animation: float2 16s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, -30px) scale(1.08); }
+    }
+
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-30px, 40px) scale(1.06); }
+    }
+
+    .text-item {
+      font-size: 70px;
+      font-weight: 300;
+      letter-spacing: 10px;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.4s ease, text-shadow 0.4s ease;
+    }
+
+    .text-item:hover {
+      transform: scale(1.06);
+    }
+
+    /* 第一个“你好” */
+    .hello-text {
+      color: #2b3a67;
+      text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.9),
+        0 0 22px rgba(180, 210, 255, 0.5);
+    }
+
+    /* 第二个“你好” */
+    .gray-hello a {
+      color: #7a8599;
+      text-decoration: none;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
+
+    .gray-hello a:hover {
+      color: #4a5578;
+      text-shadow: 0 0 14px rgba(255, 255, 255, 1);
+    }
+
+    /* 链接文字 */
+    .link-item a {
+      text-decoration: none;
+      transition: all 0.4s ease;
+    }
+
+    .link-item.cute a {
+      color: #ff6fa5;
+      text-shadow:
+        0 0 8px rgba(255, 182, 210, 0.8),
+        0 0 18px rgba(255, 120, 170, 0.45);
+    }
+
+    .link-item.cute a:hover {
+      color: #ff4d8f;
+      text-shadow:
+        0 0 14px rgba(255, 182, 210, 1),
+        0 0 30px rgba(255, 120, 170, 0.7);
+    }
+
+    .link-item.clever a {
+      color: #4d8bff;
+      text-shadow:
+        0 0 8px rgba(160, 200, 255, 0.8),
+        0 0 18px rgba(77, 139, 255, 0.45);
+    }
+
+    .link-item.clever a:hover {
+      color: #2f6bff;
+      text-shadow:
+        0 0 14px rgba(160, 200, 255, 1),
+        0 0 30px rgba(77, 139, 255, 0.7);
+    }
+
+    /* 手机适配 */
+    @media (max-width: 600px) {
+      .text-item {
+        font-size: 44px;
+        letter-spacing: 6px;
+      }
+
+      body {
+        gap: 36px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="text-item hello-text">你好</div>
+
+  <div class="text-item gray-hello">
+    <a >你好</a>
+  </div>
+
+  <div class="text-item link-item cute">
+    <a href="cute.html">我是可爱的</a>
+  </div>
+
+  <div class="text-item link-item clever">
+    <a href="clever.html">我是聪明的</a>
+  </div>
+</body>
+</html>

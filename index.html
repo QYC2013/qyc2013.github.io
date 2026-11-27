@@ -8,6 +8,43 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    /* ---------- 主题变量 ---------- */
+    :root {
+      /* 亮色（原来的风格） */
+      --bg-grad: linear-gradient(120deg, #ffeef8, #e0f3ff, #f3e8ff, #fff4d6, #e4fff2);
+      --glow1: #ffd6f0;
+      --glow2: #cbe9ff;
+      --glow-opacity: 0.55;
+      --star-opacity: 0;          /* 亮色下隐藏星星 */
+      --text-main: #2b3a67;
+      --text-main-shadow: 0 0 10px rgba(255,255,255,.9), 0 0 22px rgba(180,210,255,.5);
+      --text-sub: #7a8599;
+      --text-sub-hover: #4a5578;
+      --sub-hover-shadow: 0 0 14px rgba(255,255,255,1);
+      --arrow: #2b3a67;
+      --arrow-hover: #2f6bff;
+      --arrow-hover-shadow: 0 0 14px rgba(160,200,255,1), 0 0 30px rgba(77,139,255,.7);
+      --theme-btn-bg: rgba(255,255,255,.7);
+    }
+
+    body.dark {
+      /* 深色（现在的风格） */
+      --bg-grad: linear-gradient(120deg, #0d1321, #1a1f3a, #10182b, #1c1633, #0d1321);
+      --glow1: #3a5bff;
+      --glow2: #8a4dff;
+      --glow-opacity: 0.25;
+      --star-opacity: 0.8;
+      --text-main: #e8ecff;
+      --text-main-shadow: 0 0 10px rgba(140,170,255,.5), 0 0 22px rgba(100,130,255,.3);
+      --text-sub: #7d8ab0;
+      --text-sub-hover: #b8c4ff;
+      --sub-hover-shadow: 0 0 14px rgba(140,170,255,.8);
+      --arrow: #e8ecff;
+      --arrow-hover: #9db8ff;
+      --arrow-hover-shadow: 0 0 14px rgba(140,170,255,.9), 0 0 30px rgba(100,130,255,.6);
+      --theme-btn-bg: rgba(255,255,255,.12);
+    }
+
     body {
       min-height: 100vh;
       display: flex;
@@ -16,14 +53,12 @@
       justify-content: center;
       gap: 52px;
       font-family: "楷体", "华文琥珀", "Microsoft YaHei", sans-serif;
-      /* 深色动态渐变背景 */
-      background: linear-gradient(
-        120deg, #0d1321, #1a1f3a, #10182b, #1c1633, #0d1321
-      );
+      background: var(--bg-grad);
       background-size: 400% 400%;
       animation: bgMove 20s ease infinite;
       overflow: hidden;
       position: relative;
+      transition: color 0.5s ease;
     }
 
     @keyframes bgMove {
@@ -32,24 +67,24 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* 漂浮光晕 */
     body::before, body::after {
       content: "";
       position: absolute;
       border-radius: 50%;
       filter: blur(90px);
-      opacity: 0.25;
+      opacity: var(--glow-opacity);
       z-index: 0;
+      transition: opacity .5s;
     }
     body::before {
       width: 420px; height: 420px;
-      background: #3a5bff;
+      background: var(--glow1);
       top: 18%; left: 12%;
       animation: float1 14s ease-in-out infinite;
     }
     body::after {
       width: 360px; height: 360px;
-      background: #8a4dff;
+      background: var(--glow2);
       bottom: 20%; right: 14%;
       animation: float2 16s ease-in-out infinite;
     }
@@ -62,18 +97,18 @@
       50%      { transform: translate(-30px, 40px) scale(1.06); }
     }
 
-    /* 闪烁星星 */
     .star {
       position: absolute;
       background: #fff;
       border-radius: 50%;
-      opacity: 0.3;
+      opacity: var(--star-opacity);
       animation: twinkle 4s ease-in-out infinite;
       z-index: 0;
+      transition: opacity .5s;
     }
     @keyframes twinkle {
-      0%, 100% { opacity: 0.15; transform: scale(1); }
-      50%      { opacity: 0.8;  transform: scale(1.4); }
+      0%, 100% { opacity: calc(var(--star-opacity) * .2); transform: scale(1); }
+      50%      { opacity: var(--star-opacity); transform: scale(1.4); }
     }
 
     .text-item {
@@ -82,61 +117,77 @@
       letter-spacing: 10px;
       position: relative;
       z-index: 1;
-      transition: transform 0.4s ease, text-shadow 0.4s ease;
+      transition: transform 0.4s ease, text-shadow 0.4s ease, color 0.5s ease;
     }
     .text-item:hover { transform: scale(1.06); }
 
     .hello-text {
-      color: #e8ecff;
-      text-shadow: 0 0 10px rgba(140, 170, 255, 0.5),
-                   0 0 22px rgba(100, 130, 255, 0.3);
+      color: var(--text-main);
+      text-shadow: var(--text-main-shadow);
     }
 
-    /* 第二个"你好"→ 自我介绍 */
-    .gray-hello a {
-      color: #7d8ab0;
+    /* 个人介绍入口 */
+    .about-link a {
+      font-size: 42px;
+      color: var(--text-sub);
       text-decoration: none;
-      text-shadow: 0 0 8px rgba(120, 140, 220, 0.3);
+      transition: all 0.4s ease;
     }
-    .gray-hello a:hover {
-      color: #b8c4ff;
-      text-shadow: 0 0 14px rgba(140, 170, 255, 0.8);
+    .about-link a:hover {
+      color: var(--text-sub-hover);
+      text-shadow: var(--sub-hover-shadow);
     }
 
-    /* 右上角箭头 */
+    /* 右上角箭头（加大） */
     .arrow {
       position: fixed;
-      top: 24px;
-      right: 32px;
+      top: 20px;
+      right: 30px;
       z-index: 2;
-      font-size: 44px;
+      font-size: 64px;
       text-decoration: none;
-      color: #e8ecff;
-      opacity: 0.5;
+      color: var(--arrow);
+      opacity: 0.55;
       transition: all 0.4s ease;
       animation: nudge 2.2s ease-in-out infinite;
     }
     .arrow:hover {
       opacity: 1;
-      transform: scale(1.25) rotate(-8deg);
-      color: #9db8ff;
-      text-shadow: 0 0 14px rgba(140, 170, 255, 0.9),
-                   0 0 30px rgba(100, 130, 255, 0.6);
+      transform: scale(1.2) rotate(-8deg);
+      color: var(--arrow-hover);
+      text-shadow: var(--arrow-hover-shadow);
     }
     @keyframes nudge {
       0%, 100% { transform: translateX(0); }
       50%      { transform: translateX(8px); }
     }
 
+    /* 主题切换按钮 */
+    .theme-btn {
+      position: fixed;
+      top: 22px;
+      left: 26px;
+      z-index: 2;
+      width: 48px; height: 48px;
+      border: none;
+      border-radius: 50%;
+      background: var(--theme-btn-bg);
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .theme-btn:hover { transform: scale(1.15); }
+
     @media (max-width: 600px) {
       .text-item { font-size: 44px; letter-spacing: 6px; }
+      .about-link a { font-size: 28px; }
       body { gap: 36px; }
-      .arrow { font-size: 34px; top: 14px; right: 18px; }
+      .arrow { font-size: 46px; top: 12px; right: 16px; }
+      .theme-btn { width: 40px; height: 40px; font-size: 20px; top: 14px; left: 16px; }
     }
   </style>
 </head>
 <body>
-  <!-- 星星（位置、大小、闪烁延迟可随意调整） -->
   <div class="star" style="top: 12%; left: 25%; width: 3px; height: 3px;"></div>
   <div class="star" style="top: 30%; left: 70%; width: 2px; height: 2px; animation-delay: 1s;"></div>
   <div class="star" style="top: 60%; left: 15%; width: 2px; height: 2px; animation-delay: 2s;"></div>
@@ -145,12 +196,28 @@
   <div class="star" style="top: 45%; left: 40%; width: 2px; height: 2px; animation-delay: 2.5s;"></div>
   <div class="star" style="top: 85%; left: 30%; width: 2px; height: 2px; animation-delay: 3s;"></div>
 
+  <button class="theme-btn" id="themeBtn" title="切换风格">🌙</button>
   <a class="arrow" href="explore.html" title="去探索小屋">➜</a>
 
   <div class="text-item hello-text">你好</div>
 
-  <div class="text-item gray-hello">
-    <a href="about.html">你好</a>
+  <div class="text-item about-link">
+    <a href="about.html">个人介绍</a>
   </div>
+
+  <script>
+    const btn = document.getElementById('themeBtn');
+    // 读取保存的主题
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      btn.textContent = '☀️';
+    }
+    btn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      btn.textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  </script>
 </body>
 </html>

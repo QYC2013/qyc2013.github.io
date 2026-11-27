@@ -7,6 +7,44 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    :root {
+      --bg-grad: linear-gradient(120deg, #ffeef8, #e0f3ff, #f3e8ff, #fff4d6, #e4fff2);
+      --glow1: #ffd6f0;
+      --glow2: #cbe9ff;
+      --glow-opacity: 0.55;
+      --star-opacity: 0;
+      --cute: #ff6fa5;
+      --cute-hover: #ff4d8f;
+      --cute-shadow: 0 0 8px rgba(255,182,210,.8), 0 0 18px rgba(255,120,170,.45);
+      --cute-hover-shadow: 0 0 14px rgba(255,182,210,1), 0 0 30px rgba(255,120,170,.7);
+      --clever: #4d8bff;
+      --clever-hover: #2f6bff;
+      --clever-shadow: 0 0 8px rgba(160,200,255,.8), 0 0 18px rgba(77,139,255,.45);
+      --clever-hover-shadow: 0 0 14px rgba(160,200,255,1), 0 0 30px rgba(77,139,255,.7);
+      --back: #2b3a67;
+      --back-hover: #ff6fa5;
+      --theme-btn-bg: rgba(255,255,255,.7);
+    }
+
+    body.dark {
+      --bg-grad: linear-gradient(120deg, #10182b, #1a1f3a, #0d1321, #1c1633, #10182b);
+      --glow1: #ff4d8f;
+      --glow2: #3a5bff;
+      --glow-opacity: 0.25;
+      --star-opacity: 0.8;
+      --cute: #ff8ab5;
+      --cute-hover: #ffc2d8;
+      --cute-shadow: 0 0 8px rgba(255,120,170,.5), 0 0 18px rgba(255,80,140,.3);
+      --cute-hover-shadow: 0 0 14px rgba(255,120,170,.9), 0 0 30px rgba(255,80,140,.6);
+      --clever: #8ab5ff;
+      --clever-hover: #c6dbff;
+      --clever-shadow: 0 0 8px rgba(120,160,255,.5), 0 0 18px rgba(80,130,255,.3);
+      --clever-hover-shadow: 0 0 14px rgba(120,160,255,.9), 0 0 30px rgba(80,130,255,.6);
+      --back: #e8ecff;
+      --back-hover: #ff8ab5;
+      --theme-btn-bg: rgba(255,255,255,.12);
+    }
+
     body {
       min-height: 100vh;
       display: flex;
@@ -15,9 +53,7 @@
       justify-content: center;
       gap: 52px;
       font-family: "楷体", "华文琥珀", "Microsoft YaHei", sans-serif;
-      background: linear-gradient(
-        120deg, #10182b, #1a1f3a, #0d1321, #1c1633, #10182b
-      );
+      background: var(--bg-grad);
       background-size: 400% 400%;
       animation: bgMove 20s ease infinite;
       overflow: hidden;
@@ -35,18 +71,19 @@
       position: absolute;
       border-radius: 50%;
       filter: blur(90px);
-      opacity: 0.25;
+      opacity: var(--glow-opacity);
       z-index: 0;
+      transition: opacity .5s;
     }
     body::before {
       width: 400px; height: 400px;
-      background: #ff4d8f;
+      background: var(--glow1);
       top: 15%; right: 12%;
       animation: float1 14s ease-in-out infinite;
     }
     body::after {
       width: 380px; height: 380px;
-      background: #3a5bff;
+      background: var(--glow2);
       bottom: 18%; left: 12%;
       animation: float2 16s ease-in-out infinite;
     }
@@ -63,13 +100,14 @@
       position: absolute;
       background: #fff;
       border-radius: 50%;
-      opacity: 0.3;
+      opacity: var(--star-opacity);
       animation: twinkle 4s ease-in-out infinite;
       z-index: 0;
+      transition: opacity .5s;
     }
     @keyframes twinkle {
-      0%, 100% { opacity: 0.15; transform: scale(1); }
-      50%      { opacity: 0.8;  transform: scale(1.4); }
+      0%, 100% { opacity: calc(var(--star-opacity) * .2); transform: scale(1); }
+      50%      { opacity: var(--star-opacity); transform: scale(1.4); }
     }
 
     .text-item {
@@ -84,39 +122,38 @@
 
     .link-item a { text-decoration: none; transition: all 0.4s ease; }
 
-    .link-item.cute a {
-      color: #ff8ab5;
-      text-shadow: 0 0 8px rgba(255, 120, 170, 0.5),
-                   0 0 18px rgba(255, 80, 140, 0.3);
-    }
-    .link-item.cute a:hover {
-      color: #ffc2d8;
-      text-shadow: 0 0 14px rgba(255, 120, 170, 0.9),
-                   0 0 30px rgba(255, 80, 140, 0.6);
-    }
+    .link-item.cute a { color: var(--cute); text-shadow: var(--cute-shadow); }
+    .link-item.cute a:hover { color: var(--cute-hover); text-shadow: var(--cute-hover-shadow); }
 
-    .link-item.clever a {
-      color: #8ab5ff;
-      text-shadow: 0 0 8px rgba(120, 160, 255, 0.5),
-                   0 0 18px rgba(80, 130, 255, 0.3);
-    }
-    .link-item.clever a:hover {
-      color: #c6dbff;
-      text-shadow: 0 0 14px rgba(120, 160, 255, 0.9),
-                   0 0 30px rgba(80, 130, 255, 0.6);
-    }
+    .link-item.clever a { color: var(--clever); text-shadow: var(--clever-shadow); }
+    .link-item.clever a:hover { color: var(--clever-hover); text-shadow: var(--clever-hover-shadow); }
 
     .back {
       position: fixed;
-      top: 24px;
-      left: 32px;
-      font-size: 44px;
+      top: 20px;
+      left: 28px;
+      font-size: 52px;
       text-decoration: none;
-      color: #e8ecff;
-      opacity: 0.5;
+      color: var(--back);
+      opacity: 0.55;
       transition: all 0.4s ease;
     }
-    .back:hover { opacity: 1; transform: scale(1.25); color: #ff8ab5; }
+    .back:hover { opacity: 1; transform: scale(1.2); color: var(--back-hover); }
+
+    .theme-btn {
+      position: fixed;
+      top: 22px;
+      right: 26px;
+      z-index: 2;
+      width: 48px; height: 48px;
+      border: none;
+      border-radius: 50%;
+      background: var(--theme-btn-bg);
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .theme-btn:hover { transform: scale(1.15); }
 
     @media (max-width: 600px) {
       .text-item { font-size: 44px; letter-spacing: 6px; }
@@ -134,6 +171,7 @@
   <div class="star" style="top: 85%; left: 30%; width: 2px; height: 2px; animation-delay: 3s;"></div>
 
   <a class="back" href="index.html" title="返回首页">←</a>
+  <button class="theme-btn" id="themeBtn" title="切换风格">🌙</button>
 
   <div class="text-item link-item cute">
     <a href="cute.html">我是可爱的</a>
@@ -142,5 +180,19 @@
   <div class="text-item link-item clever">
     <a href="clever.html">我是聪明的</a>
   </div>
+
+  <script>
+    const btn = document.getElementById('themeBtn');
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      btn.textContent = '☀️';
+    }
+    btn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      btn.textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  </script>
 </body>
 </html>

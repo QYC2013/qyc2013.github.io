@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>探索小屋</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 52px;
+      font-family: "楷体", "华文琥珀", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(
+        120deg, #10182b, #1a1f3a, #0d1321, #1c1633, #10182b
+      );
+      background-size: 400% 400%;
+      animation: bgMove 20s ease infinite;
+      overflow: hidden;
+      position: relative;
+    }
+
+    @keyframes bgMove {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body::before, body::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      z-index: 0;
+    }
+    body::before {
+      width: 400px; height: 400px;
+      background: #ff4d8f;
+      top: 15%; right: 12%;
+      animation: float1 14s ease-in-out infinite;
+    }
+    body::after {
+      width: 380px; height: 380px;
+      background: #3a5bff;
+      bottom: 18%; left: 12%;
+      animation: float2 16s ease-in-out infinite;
+    }
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(-40px, 30px) scale(1.08); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(30px, -40px) scale(1.06); }
+    }
+
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: twinkle 4s ease-in-out infinite;
+      z-index: 0;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.15; transform: scale(1); }
+      50%      { opacity: 0.8;  transform: scale(1.4); }
+    }
+
+    .text-item {
+      font-size: 70px;
+      font-weight: 300;
+      letter-spacing: 10px;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.4s ease;
+    }
+    .text-item:hover { transform: scale(1.06); }
+
+    .link-item a { text-decoration: none; transition: all 0.4s ease; }
+
+    .link-item.cute a {
+      color: #ff8ab5;
+      text-shadow: 0 0 8px rgba(255, 120, 170, 0.5),
+                   0 0 18px rgba(255, 80, 140, 0.3);
+    }
+    .link-item.cute a:hover {
+      color: #ffc2d8;
+      text-shadow: 0 0 14px rgba(255, 120, 170, 0.9),
+                   0 0 30px rgba(255, 80, 140, 0.6);
+    }
+
+    .link-item.clever a {
+      color: #8ab5ff;
+      text-shadow: 0 0 8px rgba(120, 160, 255, 0.5),
+                   0 0 18px rgba(80, 130, 255, 0.3);
+    }
+    .link-item.clever a:hover {
+      color: #c6dbff;
+      text-shadow: 0 0 14px rgba(120, 160, 255, 0.9),
+                   0 0 30px rgba(80, 130, 255, 0.6);
+    }
+
+    .back {
+      position: fixed;
+      top: 24px;
+      left: 32px;
+      font-size: 44px;
+      text-decoration: none;
+      color: #e8ecff;
+      opacity: 0.5;
+      transition: all 0.4s ease;
+    }
+    .back:hover { opacity: 1; transform: scale(1.25); color: #ff8ab5; }
+
+    @media (max-width: 600px) {
+      .text-item { font-size: 44px; letter-spacing: 6px; }
+      body { gap: 36px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="star" style="top: 12%; left: 25%; width: 3px; height: 3px;"></div>
+  <div class="star" style="top: 30%; left: 70%; width: 2px; height: 2px; animation-delay: 1s;"></div>
+  <div class="star" style="top: 60%; left: 15%; width: 2px; height: 2px; animation-delay: 2s;"></div>
+  <div class="star" style="top: 75%; left: 55%; width: 3px; height: 3px; animation-delay: 0.5s;"></div>
+  <div class="star" style="top: 20%; left: 85%; width: 2px; height: 2px; animation-delay: 1.5s;"></div>
+  <div class="star" style="top: 45%; left: 40%; width: 2px; height: 2px; animation-delay: 2.5s;"></div>
+  <div class="star" style="top: 85%; left: 30%; width: 2px; height: 2px; animation-delay: 3s;"></div>
+
+  <a class="back" href="index.html" title="返回首页">←</a>
+
+  <div class="text-item link-item cute">
+    <a href="cute.html">我是可爱的</a>
+  </div>
+
+  <div class="text-item link-item clever">
+    <a href="clever.html">我是聪明的</a>
+  </div>
+</body>
+</html>

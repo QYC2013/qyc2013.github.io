@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I am cute</title>
+<style>
+  :root {
+      --bg1: #0b1020;
+      --bg2: #04060c;
+      --c1: #7df9ff;
+      --c2: #ff6fd8;
+      --c3: #b5ff6f;
+      --c4: #ffd270;
+      --c5: #ff7b9c;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+      height: 100%;
+      margin: 0;
+  }
+
+  body {
+      background: radial-gradient(circle at 50% 45%, var(--bg1), var(--bg2) 70%);
+      overflow: hidden;
+      font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+  }
+
+  .stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2vh;
+      transform: rotate(-3deg) scale(1.08);
+  }
+
+  .row {
+      overflow: hidden;
+      white-space: nowrap;
+  }
+
+  .track {
+      display: inline-block;
+      will-change: transform;
+      animation: scroll 36s linear infinite;
+  }
+
+  .row.slow .track    { animation-duration: 55s; }
+  .row.fast .track    { animation-duration: 24s; }
+  .row.reverse .track{ animation-direction: reverse; }
+
+  .word {
+      font-size: clamp(26px, 8.5vw, 150px);
+      font-weight: 900;
+      letter-spacing: .06em;
+      white-space: nowrap;
+      color: var(--c1);
+      text-shadow: 0 0 10px currentColor, 0 0 38px currentColor;
+      opacity: .93;
+  }
+
+  .gap {
+      display: inline-block;
+      width: 22vw; /* 这里控制句间空隙大小 */
+  }
+
+  .row:nth-child(1) .track, .row:nth-child(1) .word { color: var(--c1); }
+  .row:nth-child(2) .track, .row:nth-child(2) .word { color: var(--c2); }
+  .row:nth-child(3) .track, .row:nth-child(3) .word { color: var(--c3); }
+  .row:nth-child(4) .track, .row:nth-child(4) .word { color: var(--c4); }
+  .row:nth-child(5) .track, .row:nth-child(5) .word { color: var(--c5); }
+
+  @keyframes scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+  }
+
+  .scan {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.035) 0 1px,
+          transparent 1px 4px
+      );
+      mix-blend-mode: screen;
+  }
+</style>
+</head>
+<body>
+
+  <div class="stage">
+      <div class="row fast">
+          <div class="track"></div>
+      </div>
+      <div class="row reverse slow">
+          <div class="track"></div>
+      </div>
+      <div class="row">
+          <div class="track"></div>
+      </div>
+      <div class="row slow reverse">
+          <div class="track"></div>
+      </div>
+      <div class="row fast">
+          <div class="track"></div>
+      </div>
+  </div>
+
+  <div class="scan"></div>
+
+<script>
+(function () {
+    var TEXT = "I am cute  我是可爱的";
+
+    function fill(row) {
+        var track = row.firstElementChild;
+        track.textContent = "";
+
+        var half = document.createElement("span");
+        half.style.display = "inline-block";
+
+        var count = 10;
+
+        for (var i = 0; i < count; i++) {
+            var word = document.createElement("span");
+            word.className = "word";
+            word.textContent = TEXT;
+
+            var gap = document.createElement("span");
+            gap.className = "gap";
+
+            half.appendChild(word);
+            half.appendChild(gap);
+        }
+
+        var half2 = half.cloneNode(true);
+        track.appendChild(half);
+        track.appendChild(half2);
+    }
+
+    var rows = document.querySelectorAll(".row");
+    for (var i = 0; i < rows.length; i++) fill(rows[i]);
+
+    document.addEventListener("visibilitychange", function () {
+        var state = document.hidden ? "paused" : "running";
+        document.querySelectorAll(".track").forEach(function (t) {
+            t.style.animationPlayState = state;
+        });
+    });
+})();
+</script>
+</body>
+</html>
